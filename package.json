@@ -15,6 +15,9 @@
     "expo": "^31.0.2",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
+    "react-native-auto-expanding-textinput": "0.0.5",
+    "react-native-autogrow-textinput": "^5.2.0",
+    "react-native-tags": "^2.0.0",
     "react-navigation": "^2.18.2"
   },
   "devDependencies": {
