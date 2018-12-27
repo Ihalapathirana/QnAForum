@@ -3,7 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import Tags from 'react-native-tags';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
@@ -18,6 +18,9 @@ export default class HomeScreen extends React.Component {
     this.state= {
       question: '',
       isDisable: false,
+      answer: '',
+      addedAnswers: '', // TO-DO List
+      isDisableTextBox: false,
     }
   }
 
@@ -33,8 +36,27 @@ export default class HomeScreen extends React.Component {
     });
   }
 
+  onPressAnswer = () => {
+    this.setState({
+      isDisableTextBox: true,
+      answer: '',
+    });
+  }
+
+  updateAnswer = (text) => {
+    this.setState({
+      addedAnswers: text,
+      answer: text,
+    })
+  }
+
   render() {
-    const {question, isDisable} = this.state;
+    const {question,
+      isDisable,
+      answer,
+      isDisableTextBox,
+      addedAnswers,
+    } = this.state;
     
     return (
       <View style={styles.container}>
@@ -53,6 +75,7 @@ export default class HomeScreen extends React.Component {
           value={question}
           multiline = {true}
           numberOfLines={3}
+          selectTextOnFocus={true}
         />
         <TouchableOpacity
           style={styles.button}
@@ -60,9 +83,36 @@ export default class HomeScreen extends React.Component {
           <Text> Add Question </Text>
         </TouchableOpacity>
         </View> :
+        <View>
         <Text style={styles.question}>
           {question}
         </Text> 
+
+        <Text style={styles.answer}>
+          Your Answer
+        </Text> 
+
+        {isDisableTextBox ?
+          <Text style={styles.question}>
+          {addedAnswers}
+          </Text> : <View></View>
+        }
+        <AutoGrowingTextInput style={styles.questionText} 
+          placeholder={'Answer'}
+          defaultHeight={500}
+          onChangeText={(text) => this.updateAnswer(text)}
+          value={answer}
+          multiline = {true}
+          numberOfLines={3}
+          selectTextOnFocus={true}
+        />
+        
+        <TouchableOpacity
+          style={styles.button}
+          onPress={this.onPressAnswer}>
+          <Text> Answer </Text>
+        </TouchableOpacity>
+        </View>
         }
       </View>
     );
@@ -90,5 +140,10 @@ const styles = StyleSheet.create({
   question: {
     margin: 10,
     fontSize: 16,
+  },
+  answer: {
+    padding: 10,
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 });
